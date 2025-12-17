@@ -112,7 +112,7 @@
 
         /* 图表高度 */
         .chart-box { width: 100%; height: 260px; }
-        .gantt-box { height: 350px; }
+        .gantt-box { height: 380px; }
     </style>
 </head>
 <body class="pb-safe">
@@ -129,15 +129,15 @@
 
     <main class="p-4 max-w-4xl mx-auto -mt-4 relative z-10">
 
-        <div class="mb-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             <div class="card !m-0 p-5 relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-white shadow-lg border border-blue-100">
                 <div class="flex items-end justify-between relative z-10">
                     <div>
                         <div class="text-gray-500 text-sm font-bold mb-2 uppercase tracking-widest flex items-center">
                             <i class="fa-solid fa-file-invoice text-blue-500 mr-2"></i> 前三季度受理总量
                         </div>
-                        <div class="text-6xl font-extrabold text-blue-800 leading-none tracking-tight">
-                            618 <span class="text-xl font-medium text-gray-400 ml-1">件</span>
+                        <div class="text-5xl font-extrabold text-blue-800 leading-none tracking-tight">
+                            618 <span class="text-lg font-medium text-gray-400 ml-1">件</span>
                         </div>
                     </div>
                     <div class="text-right mb-1">
@@ -151,11 +151,33 @@
                     <i class="fa-solid fa-chart-simple"></i>
                 </div>
             </div>
+
+            <div class="card !m-0 p-5 relative overflow-hidden bg-gradient-to-br from-green-50 via-white to-white shadow-lg border border-green-100">
+                <div class="flex items-end justify-between relative z-10">
+                    <div>
+                        <div class="text-gray-500 text-sm font-bold mb-2 uppercase tracking-widest flex items-center">
+                            <i class="fa-solid fa-calendar-check text-green-500 mr-2"></i> 三季度新增投诉
+                        </div>
+                        <div class="text-5xl font-extrabold text-gray-800 leading-none tracking-tight">
+                            200 <span class="text-lg font-medium text-gray-400 ml-1">件</span>
+                        </div>
+                    </div>
+                    <div class="text-right mb-1">
+                        <div class="bg-green-50 text-green-600 px-3 py-1 rounded-full text-sm font-bold border border-green-100 shadow-sm">
+                            <i class="fa-solid fa-arrow-trend-down mr-1"></i> -18.4%
+                        </div>
+                        <div class="text-xs text-gray-400 mt-1 mr-1">同比改善</div>
+                    </div>
+                </div>
+                <div class="absolute right-[-15px] bottom-[-20px] text-green-600 opacity-5 text-8xl pointer-events-none transform -rotate-12">
+                    <i class="fa-solid fa-leaf"></i>
+                </div>
+            </div>
         </div>
 
         <div class="card border-l-4 border-red-500">
             <div class="card-header">
-                <h2 class="section-title text-red-700">一、上半年监管通报数据详情</h2>
+                <h2 class="section-title text-red-700">一、监管通报数据详情</h2>
                 <span class="badge badge-red">预警</span>
             </div>
             <div class="card-body">
@@ -224,7 +246,7 @@
                 </div>
 
                 <div>
-                    <h4 class="text-xs font-bold text-gray-500 uppercase mb-2 border-l-2 border-blue-500 pl-2">3. 前三季度核心指标 （根据监管统计口径测算)</h4>
+                    <h4 class="text-xs font-bold text-gray-500 uppercase mb-2 border-l-2 border-blue-500 pl-2">3. 监管口径测算核心指标 (前三季度)</h4>
                     <div class="overflow-x-auto rounded-lg border border-gray-200">
                         <table class="w-full text-sm text-left text-gray-500">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -236,7 +258,7 @@
                             </thead>
                             <tbody>
                                 <tr class="bg-white border-b hover:bg-gray-50">
-                                    <td class="px-3 py-2 font-medium text-gray-900">总体投诉增长率</td>
+                                    <td class="px-3 py-2 font-medium text-gray-900">预计总体投诉增长率</td>
                                     <td class="px-3 py-2 text-right font-bold">3.0%</td>
                                     <td class="px-3 py-2 text-right text-gray-400">-</td>
                                 </tr>
@@ -265,7 +287,7 @@
 
         <div class="card">
             <div class="card-header bg-green-50/50">
-                <h2 class="section-title text-green-800">监管通报问题自查整改情况</h2>
+                <h2 class="section-title text-green-800">监管通报问题自查整改</h2>
                 <span class="badge badge-green">已达标</span>
             </div>
             <div class="card-body">
@@ -317,7 +339,7 @@
 
         <div class="card">
             <div class="card-header">
-                <h2 class="section-title">三、分渠道投诉原因剖析</h2>
+                <h2 class="section-title">三、分渠道投诉原因深度剖析</h2>
             </div>
             <div class="card-body bg-gray-50">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -386,7 +408,7 @@
 
         <div class="card">
             <div class="card-header">
-                <h2 class="section-title">五、主要风险与应对</h2>
+                <h2 class="section-title">五、主要风险与问题</h2>
             </div>
             <div class="card-body space-y-4">
                 
@@ -547,10 +569,28 @@
             }]
         });
 
-        // 5. 甘特图 (无数字纯净版)
+        // 5. 甘特图 (升级版: 图形内含措施描述)
         var chartGantt = echarts.init(document.getElementById('chart-gantt'));
-        var categories = ['纠纷化解细则', '理赔标准制定', '合规销售培训', '3.0产品监控', '中介法律追偿'];
+        // 任务名称
+        var categories = ['纠纷化解细则', '网销重疾理赔', '合规销售培训', '3.0产品监控', '中介法律追偿'];
+        // 具体措施描述 (用于显示在柱状图上)
+        var measures = [
+            '细化"能调尽调"情形',
+            '明确协商原则与标准',
+            '分层推送/消保答题',
+            '执行专项应对方案',
+            '启动法律程序'
+        ];
+
         chartGantt.setOption({
+            tooltip: {
+                trigger: 'axis',
+                formatter: function (params) {
+                    var taskName = params[1].name;
+                    var measure = measures[params[1].dataIndex];
+                    return `<b>${taskName}</b><br/>措施: ${measure}<br/>周期: ${params[1].value}个月`;
+                }
+            },
             grid: { left: '3%', right: '4%', bottom: '10%', top: '5%', containLabel: true },
             xAxis: { 
                 type: 'value', min: 0, max: 6,
@@ -563,13 +603,23 @@
                 { 
                     name: 'Duration', type: 'bar', stack: 'Total', 
                     itemStyle: {borderRadius: 4, shadowBlur: 2, shadowColor: 'rgba(0,0,0,0.1)'}, 
-                    label: {show: false}, 
+                    // 在此配置标签显示具体措施
+                    label: {
+                        show: true, 
+                        position: 'insideLeft', // 放在内部左侧
+                        formatter: function(params) {
+                            return measures[params.dataIndex]; // 显示measures数组中的文字
+                        },
+                        fontSize: 10,
+                        color: '#fff',
+                        offset: [5, 0] // 微调位置
+                    },
                     data: [
-                        {value: 2, itemStyle: {color: '#8b5cf6'}}, 
-                        {value: 2, itemStyle: {color: '#3b82f6'}}, 
-                        {value: 2, itemStyle: {color: '#10b981'}}, 
-                        {value: 6, itemStyle: {color: '#f59e0b'}}, 
-                        {value: 5, itemStyle: {color: '#ef4444'}} 
+                        {value: 2, itemStyle: {color: '#8b5cf6'}}, // 紫色
+                        {value: 2, itemStyle: {color: '#3b82f6'}}, // 蓝色
+                        {value: 2, itemStyle: {color: '#10b981'}}, // 绿色
+                        {value: 6, itemStyle: {color: '#f59e0b'}}, // 橙色
+                        {value: 5, itemStyle: {color: '#ef4444'}}  // 红色
                     ]
                 }
             ]

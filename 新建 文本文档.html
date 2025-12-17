@@ -8,33 +8,35 @@
     <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* 全局字体与背景优化 */
+        /* 全局样式 - 移动端优先 */
         body { 
             font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
             background-color: #f0f2f5;
             color: #1f2937;
             -webkit-font-smoothing: antialiased;
+            padding-bottom: 40px;
         }
         
-        /* 高级卡片样式 */
+        /* 卡片容器 */
         .card { 
             background: #ffffff; 
             border-radius: 12px; 
             box-shadow: 0 4px 12px rgba(0,0,0,0.03); 
             margin-bottom: 20px; 
             overflow: hidden;
-            border: 1px solid rgba(229, 231, 235, 0.5);
+            border: 1px solid rgba(229, 231, 235, 0.6);
         }
         .card-header {
-            padding: 16px;
+            padding: 14px 16px;
             border-bottom: 1px solid #f3f4f6;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: linear-gradient(to right, #ffffff, #f9fafb);
         }
         .card-body { padding: 16px; }
 
-        /* 标题增强 */
+        /* 标题样式 */
         .section-title {
             font-size: 1rem;
             font-weight: 700;
@@ -52,23 +54,63 @@
             border-radius: 2px;
         }
 
-        /* 数据表格样式 */
-        .data-table { width: 100%; font-size: 0.8rem; border-collapse: collapse; }
-        .data-table th { text-align: left; color: #6b7280; padding: 8px 4px; border-bottom: 1px solid #e5e7eb; font-weight: normal; }
-        .data-table td { padding: 10px 4px; border-bottom: 1px solid #f3f4f6; vertical-align: middle; }
-        .data-table .num { font-family: 'DIN Alternate', sans-serif; font-weight: bold; font-size: 0.95rem; }
-        
-        /* 状态标签 */
+        /* 标签 Badge */
         .badge { padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; display: inline-block; }
         .badge-red { background: #fee2e2; color: #991b1b; }
         .badge-green { background: #dcfce7; color: #166534; }
+        .badge-orange { background: #ffedd5; color: #9a3412; }
         .badge-gray { background: #f3f4f6; color: #4b5563; }
+        .badge-blue { background: #dbeafe; color: #1e40af; }
 
-        /* 自查列表样式 */
-        .check-item { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed #e5e7eb; }
-        .check-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        /* 表格样式 */
+        .data-table { width: 100%; font-size: 0.8rem; border-collapse: collapse; }
+        .data-table th { text-align: left; color: #6b7280; padding: 8px 4px; border-bottom: 1px solid #e5e7eb; font-weight: normal; background-color: #f9fafb; }
+        .data-table td { padding: 10px 4px; border-bottom: 1px solid #f3f4f6; vertical-align: middle; }
+        .data-table .num { font-family: 'DIN Alternate', sans-serif; font-weight: bold; font-size: 0.95rem; }
 
-        /* 图表容器 */
+        /* 列表项圆点 */
+        .reason-item {
+            position: relative;
+            padding-left: 14px;
+            margin-bottom: 8px;
+            font-size: 0.8rem;
+            color: #4b5563;
+            line-height: 1.5;
+        }
+        .reason-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 7px;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background-color: #9ca3af;
+        }
+
+        /* 应对措施块 */
+        .action-box {
+            background-color: #f8fafc;
+            border-left: 3px solid #3b82f6;
+            padding: 10px;
+            margin-top: 8px;
+            border-radius: 0 4px 4px 0;
+        }
+        .action-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #2563eb;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+        }
+        .action-text {
+            font-size: 0.75rem;
+            color: #475569;
+            line-height: 1.4;
+        }
+
+        /* 图表高度 */
         .chart-box { width: 100%; height: 260px; }
         .gantt-box { height: 350px; }
     </style>
@@ -87,32 +129,39 @@
 
     <main class="p-4 max-w-4xl mx-auto -mt-4 relative z-10">
 
-        <div class="grid grid-cols-2 gap-3 mb-4">
-            <div class="card !m-0 p-4 relative overflow-hidden">
-                <div class="absolute right-0 top-0 p-2 text-gray-100 text-4xl"><i class="fa-solid fa-file-signature"></i></div>
-                <div class="text-gray-500 text-xs mb-1">受理总量</div>
-                <div class="text-2xl font-bold text-gray-800">618 <span class="text-xs font-normal text-gray-400">件</span></div>
-                <div class="mt-2 text-xs font-bold text-red-500 bg-red-50 inline-block px-2 py-0.5 rounded">
-                    <i class="fa-solid fa-caret-up"></i> 48.6%
+        <div class="mb-4">
+            <div class="card !m-0 p-5 relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-white shadow-lg border border-blue-100">
+                <div class="flex items-end justify-between relative z-10">
+                    <div>
+                        <div class="text-gray-500 text-sm font-bold mb-2 uppercase tracking-widest flex items-center">
+                            <i class="fa-solid fa-file-invoice text-blue-500 mr-2"></i> 前三季度受理总量
+                        </div>
+                        <div class="text-6xl font-extrabold text-blue-800 leading-none tracking-tight">
+                            618 <span class="text-xl font-medium text-gray-400 ml-1">件</span>
+                        </div>
+                    </div>
+                    <div class="text-right mb-1">
+                        <div class="bg-red-50 text-red-600 px-3 py-1 rounded-full text-sm font-bold border border-red-100 shadow-sm">
+                            <i class="fa-solid fa-arrow-trend-up mr-1"></i> +48.6%
+                        </div>
+                        <div class="text-xs text-gray-400 mt-1 mr-1">同比增速</div>
+                    </div>
                 </div>
-            </div>
-            <div class="card !m-0 p-4">
-                <div class="text-gray-500 text-xs mb-1">亿元保费投诉量</div>
-                <div class="text-2xl font-bold text-gray-800">1.05</div>
-                <div class="mt-2 text-xs font-bold text-red-500 bg-red-50 inline-block px-2 py-0.5 rounded">
-                    <i class="fa-solid fa-caret-up"></i> 20.7%
+                <div class="absolute right-[-15px] bottom-[-20px] text-blue-600 opacity-5 text-8xl pointer-events-none transform -rotate-12">
+                    <i class="fa-solid fa-chart-simple"></i>
                 </div>
             </div>
         </div>
 
         <div class="card border-l-4 border-red-500">
             <div class="card-header">
-                <h2 class="section-title text-red-700">监管通报数据详情</h2>
+                <h2 class="section-title text-red-700">一、上半年监管通报数据详情</h2>
                 <span class="badge badge-red">预警</span>
             </div>
             <div class="card-body">
-                <div class="mb-4">
-                    <h4 class="text-xs font-bold text-gray-500 uppercase mb-2">基础总量对比</h4>
+                
+                <div class="mb-6">
+                    <h4 class="text-xs font-bold text-gray-500 uppercase mb-2 border-l-2 border-blue-500 pl-2">1. 行业 vs 公司总量增速</h4>
                     <div class="grid grid-cols-2 gap-4 bg-gray-50 p-3 rounded-lg">
                         <div>
                             <div class="text-xs text-gray-500">行业通报总量</div>
@@ -127,100 +176,126 @@
                     </div>
                 </div>
 
-                <h4 class="text-xs font-bold text-gray-500 uppercase mb-2">关键指标深度对标</h4>
-                <table class="data-table mb-4">
-                    <thead>
-                        <tr>
-                            <th width="30%">指标名称</th>
-                            <th width="25%">行业中位数</th>
-                            <th width="25%">公司数据</th>
-                            <th width="20%">偏离度</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div>亿元保费</div>
-                                <div class="text-gray-400 text-[0.6rem]">投诉量</div>
-                            </td>
-                            <td>
-                                <div class="num">0.83</div>
-                                <div class="text-[0.6rem] text-gray-400">+68.9%</div>
-                            </td>
-                            <td>
-                                <div class="num text-red-600">1.07</div>
-                                <div class="text-[0.6rem] text-red-400">+87.7%</div>
-                            </td>
-                            <td><span class="badge badge-red">+29%</span></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div>万张保单</div>
-                                <div class="text-gray-400 text-[0.6rem]">投诉量</div>
-                            </td>
-                            <td>
-                                <div class="num">0.49</div>
-                                <div class="text-[0.6rem] text-gray-400">+64.3%</div>
-                            </td>
-                            <td>
-                                <div class="num text-red-600">1.58</div>
-                                <div class="text-[0.6rem] text-red-400">+92.7%</div>
-                            </td>
-                            <td><span class="badge badge-red">>200%</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div id="chart-compare" class="chart-box" style="height: 200px;"></div>
+                <div class="mb-6">
+                    <h4 class="text-xs font-bold text-gray-500 uppercase mb-2 border-l-2 border-blue-500 pl-2">2. 关键指标深度对标</h4>
+                    <table class="data-table mb-2">
+                        <thead>
+                            <tr>
+                                <th width="30%">指标名称</th>
+                                <th width="25%">行业中位数</th>
+                                <th width="25%">公司数据</th>
+                                <th width="20%">偏离度</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div>亿元保费</div>
+                                    <div class="text-gray-400 text-[0.6rem]">投诉量</div>
+                                </td>
+                                <td>
+                                    <div class="num">0.83</div>
+                                    <div class="text-[0.6rem] text-gray-400">+68.9%</div>
+                                </td>
+                                <td>
+                                    <div class="num text-red-600">1.07</div>
+                                    <div class="text-[0.6rem] text-red-400">+87.7%</div>
+                                </td>
+                                <td><span class="badge badge-red">+29%</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>万张保单</div>
+                                    <div class="text-gray-400 text-[0.6rem]">投诉量</div>
+                                </td>
+                                <td>
+                                    <div class="num">0.49</div>
+                                    <div class="text-[0.6rem] text-gray-400">+64.3%</div>
+                                </td>
+                                <td>
+                                    <div class="num text-red-600">1.58</div>
+                                    <div class="text-[0.6rem] text-red-400">+92.7%</div>
+                                </td>
+                                <td><span class="badge badge-red">>200%</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div id="chart-compare" class="chart-box" style="height: 200px;"></div>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold text-gray-500 uppercase mb-2 border-l-2 border-blue-500 pl-2">3. 前三季度核心指标 （根据监管统计口径测算)</h4>
+                    <div class="overflow-x-auto rounded-lg border border-gray-200">
+                        <table class="w-full text-sm text-left text-gray-500">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-3 py-2">指标名称</th>
+                                    <th scope="col" class="px-3 py-2 text-right">数值</th>
+                                    <th scope="col" class="px-3 py-2 text-right">同比</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white border-b hover:bg-gray-50">
+                                    <td class="px-3 py-2 font-medium text-gray-900">总体投诉增长率</td>
+                                    <td class="px-3 py-2 text-right font-bold">3.0%</td>
+                                    <td class="px-3 py-2 text-right text-gray-400">-</td>
+                                </tr>
+                                <tr class="bg-white border-b hover:bg-gray-50">
+                                    <td class="px-3 py-2 font-medium text-gray-900">亿元保费投诉量</td>
+                                    <td class="px-3 py-2 text-right font-bold">1.05 <span class="text-xs font-normal text-gray-400">件/亿元</span></td>
+                                    <td class="px-3 py-2 text-right text-red-600 font-bold"><i class="fa-solid fa-caret-up"></i> 20.7%</td>
+                                </tr>
+                                <tr class="bg-white border-b hover:bg-gray-50">
+                                    <td class="px-3 py-2 font-medium text-gray-900">万张保单投诉量</td>
+                                    <td class="px-3 py-2 text-right font-bold">1.99 <span class="text-xs font-normal text-gray-400">件/万张</span></td>
+                                    <td class="px-3 py-2 text-right text-red-600 font-bold"><i class="fa-solid fa-caret-up"></i> 34.2%</td>
+                                </tr>
+                                <tr class="bg-white hover:bg-gray-50">
+                                    <td class="px-3 py-2 font-medium text-gray-900">监管转办件比率</td>
+                                    <td class="px-3 py-2 text-right font-bold">49.3%</td>
+                                    <td class="px-3 py-2 text-right text-green-600 font-bold"><i class="fa-solid fa-caret-down"></i> 0.6%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
             </div>
         </div>
 
         <div class="card">
             <div class="card-header bg-green-50/50">
-                <h2 class="section-title text-green-800">监管通报问题自查整改</h2>
+                <h2 class="section-title text-green-800">监管通报问题自查整改情况</h2>
                 <span class="badge badge-green">已达标</span>
             </div>
             <div class="card-body">
-                <p class="text-xs text-gray-500 mb-4">针对监管通报的五大行业共性问题，客服部牵头排查，结论如下：</p>
-                
                 <div class="space-y-3">
                     <div class="flex items-start">
                         <div class="mt-1 mr-3 text-green-500"><i class="fa-regular fa-circle-check"></i></div>
                         <div>
                             <h4 class="text-sm font-bold text-gray-800">理赔环节告知义务</h4>
-                            <p class="text-xs text-gray-500 mt-1 leading-relaxed">
-                                <span class="bg-gray-100 px-1 rounded text-gray-600">整改/现状</span> 
-                                官网/微信/合同全渠道公示流程；报案、立案、结案关键节点<b class="text-gray-700">短信主动通知</b>，流程透明。
-                            </p>
+                            <p class="text-xs text-gray-500 mt-1"><b>现状：</b>官网/微信/合同全渠道公示流程；关键节点<b class="text-gray-700">短信主动通知</b>。</p>
                         </div>
                     </div>
                     <div class="flex items-start">
                         <div class="mt-1 mr-3 text-green-500"><i class="fa-regular fa-circle-check"></i></div>
                         <div>
                             <h4 class="text-sm font-bold text-gray-800">保单质押贷款披露</h4>
-                            <p class="text-xs text-gray-500 mt-1 leading-relaxed">
-                                <span class="bg-gray-100 px-1 rounded text-gray-600">整改/现状</span> 
-                                业务人员主动介绍贷款利率、计算方式及注意事项，确保客户知情。
-                            </p>
+                            <p class="text-xs text-gray-500 mt-1"><b>现状：</b>主动介绍利率、计算方式及注意事项。</p>
                         </div>
                     </div>
                     <div class="flex items-start">
                         <div class="mt-1 mr-3 text-green-500"><i class="fa-regular fa-circle-check"></i></div>
                         <div>
-                            <h4 class="text-sm font-bold text-gray-800">消保审查约束力</h4>
-                            <p class="text-xs text-gray-500 mt-1 leading-relaxed">
-                                <span class="bg-gray-100 px-1 rounded text-gray-600">整改/现状</span> 
-                                审查机制已覆盖业务规则、协议条款及宣传文本，强化流程反馈。
-                            </p>
+                            <h4 class="text-sm font-bold text-gray-800">消保审查与考核</h4>
+                            <p class="text-xs text-gray-500 mt-1"><b>现状：</b>审查覆盖宣传文本；考核涵盖产品服务与信息安全。</p>
                         </div>
                     </div>
                     <div class="flex items-start">
                         <div class="mt-1 mr-3 text-green-500"><i class="fa-regular fa-circle-check"></i></div>
                         <div>
                             <h4 class="text-sm font-bold text-gray-800">有责投诉问责</h4>
-                            <p class="text-xs text-gray-500 mt-1 leading-relaxed">
-                                <span class="bg-gray-100 px-1 rounded text-gray-600">整改/现状</span> 
-                                [cite_start]已出台《员工违规处罚管理办法》，明确认定标准，强化问责与整改跟踪 [cite: 58]。
-                            </p>
+                            <p class="text-xs text-gray-500 mt-1"><b>现状：</b>出台《员工违规处罚管理办法》，强化追责。</p>
                         </div>
                     </div>
                 </div>
@@ -229,32 +304,174 @@
 
         <div class="card">
             <div class="card-header">
-                <h2 class="section-title">投诉处理结果分析</h2>
+                <h2 class="section-title">二、渠道与机构分布</h2>
             </div>
             <div class="card-body">
-                <div class="flex items-center justify-between bg-orange-50 p-3 rounded-lg mb-4">
-                    <span class="text-xs text-orange-800">通融/协议解约支付金额</span>
-                    <span class="text-lg font-bold text-orange-600 font-mono">¥118.33<span class="text-xs">万</span></span>
+                <h4 class="text-xs font-bold text-gray-400 mb-2 uppercase text-center">各渠道投诉占比</h4>
+                <div id="chart-channel" class="chart-box" style="height: 320px;"></div>
+                <div class="h-px bg-gray-100 my-4"></div>
+                <h4 class="text-xs font-bold text-gray-400 mb-2 uppercase text-center">分公司投诉量排名</h4>
+                <div id="chart-branch" class="chart-box" style="height: 380px;"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="section-title">三、分渠道投诉原因剖析</h2>
+            </div>
+            <div class="card-body bg-gray-50">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-white p-3 rounded-lg border-l-4 border-green-500 shadow-sm">
+                        <div class="flex items-center mb-2">
+                            <i class="fa-solid fa-user-tie text-green-600 mr-2"></i>
+                            <h3 class="font-bold text-sm text-gray-800">个险渠道 (190件)</h3>
+                        </div>
+                        <div class="text-xs text-gray-500 mb-2 font-mono bg-gray-50 p-1 rounded">涉诉：盛世金享、康佑人生A款</div>
+                        <div class="reason-item"><b>关键信息缺失：</b>未说明“退保损失”和“保单存续规则”。</div>
+                        <div class="reason-item"><b>销售误导：</b>夸大收益稳定性。</div>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border-l-4 border-blue-500 shadow-sm">
+                        <div class="flex items-center mb-2">
+                            <i class="fa-solid fa-globe text-blue-600 mr-2"></i>
+                            <h3 class="font-bold text-sm text-gray-800">原创新渠道 (295件)</h3>
+                        </div>
+                        <div class="text-xs text-gray-500 mb-2 font-mono bg-gray-50 p-1 rounded">涉诉：鑫运金生、鑫运一生</div>
+                        <div class="reason-item"><b>夸大承诺：</b>隐瞒保险期限。</div>
+                        <div class="reason-item"><b>信息壁垒：</b>对电子条款、犹豫期不知情。</div>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border-l-4 border-yellow-500 shadow-sm">
+                        <div class="flex items-center mb-2">
+                            <i class="fa-solid fa-building-columns text-yellow-600 mr-2"></i>
+                            <h3 class="font-bold text-sm text-gray-800">银保渠道 (125件)</h3>
+                        </div>
+                        <div class="text-xs text-gray-500 mb-2 font-mono bg-gray-50 p-1 rounded">涉诉：盛世金生、盛世金享</div>
+                        <div class="reason-item"><b>存单变保单：</b>误导为“存款福利”。</div>
+                        <div class="reason-item"><b>强制搭售：</b>办理贷款时被强制购买保险。</div>
+                    </div>
+                    <div class="bg-white p-3 rounded-lg border-l-4 border-gray-500 shadow-sm">
+                        <div class="flex items-center mb-2">
+                            <i class="fa-solid fa-users text-gray-600 mr-2"></i>
+                            <h3 class="font-bold text-sm text-gray-800">团险渠道 (8件)</h3>
+                        </div>
+                        <div class="text-xs text-gray-500 mb-2 font-mono bg-gray-50 p-1 rounded">涉诉：医惠锡城</div>
+                        <div class="reason-item"><b>理赔分歧：</b>理赔规则理解有误。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="section-title">四、投诉处理结果分析</h2>
+                <span class="badge badge-orange">重点关注</span>
+            </div>
+            <div class="card-body">
+                <div class="grid grid-cols-2 gap-3 mb-4">
+                    <div class="bg-orange-50 p-3 rounded text-center">
+                        <div class="text-xs text-orange-800">通融/协议解约支付</div>
+                        <div class="font-bold text-orange-600 text-lg font-mono">¥118.33<span class="text-xs">万</span></div>
+                    </div>
+                    <div class="bg-red-50 p-3 rounded text-center">
+                        <div class="text-xs text-red-800">未满足诉求占比</div>
+                        <div class="font-bold text-red-600 text-lg font-mono">79.8%</div>
+                    </div>
                 </div>
                 <div id="chart-resolution" class="chart-box"></div>
-                <div class="text-center text-xs text-gray-400 mt-2">未满足诉求占比近8成，是监管转办主要来源</div>
+                <div class="mt-3 p-3 bg-gray-50 rounded text-xs text-gray-600">
+                    <p class="mb-1"><b>⚠️ 风险提示：</b></p>
+                    <p>“未满足诉求”案件达493件，其中<b>重复投诉</b>占392件（涉及92名客户），是监管转办件的主要来源。</p>
+                </div>
             </div>
         </div>
 
         <div class="card">
             <div class="card-header">
-                <h2 class="section-title">渠道与机构分布</h2>
+                <h2 class="section-title">五、主要风险与应对</h2>
             </div>
-            <div class="card-body">
-                <div id="chart-channel" class="chart-box" style="height: 220px;"></div>
-                <div class="h-px bg-gray-100 my-4"></div>
-                <div id="chart-branch" class="chart-box" style="height: 250px;"></div>
+            <div class="card-body space-y-4">
+                
+                <div class="bg-gray-50 p-3 rounded-lg border-l-2 border-red-500">
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-sm text-gray-800">1. 重复投诉持续激增</span>
+                        <span class="badge badge-red">高危</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">占比73.9% (457件)。受黑产煽动，客户维权成本低，化解难度大。</p>
+                    <div class="action-box">
+                        <div class="action-title"><i class="fa-solid fa-shield-halved mr-1"></i> 客服部已采取应对：</div>
+                        <div class="action-text">
+                            • 发送《投诉工作联系函》11份，压实主体责任。<br>
+                            • 对3次以上重复投诉启动联合会诊。<br>
+                            • 对5次以上无实证案件，向行业协会进行异常申报。
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-3 rounded-lg border-l-2 border-red-500">
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-sm text-gray-800">2. 败诉风险 (网销重疾)</span>
+                        <span class="badge badge-red">全败</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">涉及"睡眠窒息症"案25件，已诉讼7起均败诉，缺乏统一标准。</p>
+                    <div class="action-box">
+                        <div class="action-title"><i class="fa-solid fa-scale-balanced mr-1"></i> 客服部已采取应对：</div>
+                        <div class="action-text">
+                            • 制定统一的案件处理指引，明确赔付比例。<br>
+                            • 规范争议协调流程，降低整体赔付成本与诉讼概率。
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 p-3 rounded-lg border-l-2 border-orange-500">
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-sm text-gray-800">3. 3.0利率产品风险</span>
+                        <span class="badge badge-orange">新风险</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">平安如意B/鑫运年年存量2.4亿元。已承担退费差额11.5万元，潜在风险大。</p>
+                     <div class="action-box">
+                        <div class="action-title"><i class="fa-solid fa-chart-pie mr-1"></i> 客服部已采取应对：</div>
+                        <div class="action-text">
+                            • 重点监控投诉趋势，严格执行专项应对方案。<br>
+                            • 提升机构协商积极性，有效控制退费差额扩大。
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-3 rounded-lg border-l-2 border-blue-500">
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-sm text-gray-800">4. 资金损失 (中介追偿)</span>
+                        <span class="badge badge-blue">追偿难</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">涉及江苏/湖北/安徽合计超150万元，渠道内勤离职拒不配合。</p>
+                    <div class="action-box">
+                        <div class="action-title"><i class="fa-solid fa-gavel mr-1"></i> 客服部已采取应对：</div>
+                        <div class="action-text">
+                            • 配合追偿小组工作。<br>
+                            • 对沟通无效渠道启动法律程序，确保公司利益不受损。
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 p-3 rounded-lg border-l-2 border-gray-400">
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-sm text-gray-800">5. 销售误导 (湖北典型案)</span>
+                        <span class="badge badge-gray">内控</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">发生3起典型案例（醉酒签单、未面见、黑产挂单）。</p>
+                    <div class="action-box">
+                        <div class="action-title"><i class="fa-solid fa-triangle-exclamation mr-1"></i> 客服部已采取应对：</div>
+                        <div class="action-text">
+                            • 及时下发风险预警函。<br>
+                            • 将信息同步法律合规部与审计部，强化问责。
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
 
         <div class="card">
             <div class="card-header">
-                <h2 class="section-title">下阶段重点工作 (Q4-Q1)</h2>
+                <h2 class="section-title">六、下阶段重点工作 (Q4-Q1)</h2>
                 <span class="badge badge-gray">执行中</span>
             </div>
             <div class="card-body">
@@ -269,7 +486,7 @@
     </main>
 
     <script type="text/javascript">
-        // 1. 监管对标图 (更简洁的柱状图)
+        // 1. 监管对标图
         var chartCompare = echarts.init(document.getElementById('chart-compare'));
         chartCompare.setOption({
             tooltip: { trigger: 'axis' },
@@ -299,7 +516,20 @@
             }]
         });
 
-        // 3. 处理结果
+        // 3. 机构排名
+        var chartBranch = echarts.init(document.getElementById('chart-branch'));
+        chartBranch.setOption({
+            grid: { top: '10', left: '3%', right: '15%', bottom: '5%', containLabel: true },
+            xAxis: { show: false },
+            yAxis: { type: 'category', data: ['安徽', '湖北', '无锡', '江苏'], axisLine:{show:false}, axisTick:{show:false}, axisLabel:{color:'#4b5563'} },
+            series: [{
+                type: 'bar', data: [51, 77, 225, 265], barWidth: 16,
+                itemStyle: { color: '#3b82f6', borderRadius: [0,4,4,0] },
+                label: { show: true, position: 'right', fontWeight: 'bold', color: '#3b82f6' }
+            }]
+        });
+
+        // 4. 处理结果
         var chartRes = echarts.init(document.getElementById('chart-resolution'));
         chartRes.setOption({
             color: ['#ef4444', '#f59e0b', '#10b981', '#6b7280'],
@@ -317,20 +547,7 @@
             }]
         });
 
-        // 4. 机构排名
-        var chartBranch = echarts.init(document.getElementById('chart-branch'));
-        chartBranch.setOption({
-            grid: { top: '10', left: '3%', right: '15%', bottom: '5%', containLabel: true },
-            xAxis: { show: false },
-            yAxis: { type: 'category', data: ['安徽', '湖北', '无锡', '江苏'], axisLine:{show:false}, axisTick:{show:false}, axisLabel:{color:'#4b5563'} },
-            series: [{
-                type: 'bar', data: [51, 77, 225, 265], barWidth: 12,
-                itemStyle: { color: '#3b82f6', borderRadius: [0,4,4,0] },
-                label: { show: true, position: 'right', fontWeight: 'bold', color: '#3b82f6' }
-            }]
-        });
-
-        // 5. 甘特图 (无数字版)
+        // 5. 甘特图 (无数字纯净版)
         var chartGantt = echarts.init(document.getElementById('chart-gantt'));
         var categories = ['纠纷化解细则', '理赔标准制定', '合规销售培训', '3.0产品监控', '中介法律追偿'];
         chartGantt.setOption({
@@ -346,7 +563,7 @@
                 { 
                     name: 'Duration', type: 'bar', stack: 'Total', 
                     itemStyle: {borderRadius: 4, shadowBlur: 2, shadowColor: 'rgba(0,0,0,0.1)'}, 
-                    label: {show: false}, // 去掉内部数字
+                    label: {show: false}, 
                     data: [
                         {value: 2, itemStyle: {color: '#8b5cf6'}}, 
                         {value: 2, itemStyle: {color: '#3b82f6'}}, 

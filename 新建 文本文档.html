@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>国联人寿2025前三季度消费投诉分析报告</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* 全局字体与背景优化 */
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+            background-color: #f0f2f5;
+            color: #1f2937;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* 高级卡片样式 */
+        .card { 
+            background: #ffffff; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03); 
+            margin-bottom: 20px; 
+            overflow: hidden;
+            border: 1px solid rgba(229, 231, 235, 0.5);
+        }
+        .card-header {
+            padding: 16px;
+            border-bottom: 1px solid #f3f4f6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .card-body { padding: 16px; }
+
+        /* 标题增强 */
+        .section-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #111827;
+            display: flex;
+            align-items: center;
+        }
+        .section-title::before {
+            content: '';
+            display: block;
+            width: 4px;
+            height: 16px;
+            background: #2563eb;
+            margin-right: 8px;
+            border-radius: 2px;
+        }
+
+        /* 数据表格样式 */
+        .data-table { width: 100%; font-size: 0.8rem; border-collapse: collapse; }
+        .data-table th { text-align: left; color: #6b7280; padding: 8px 4px; border-bottom: 1px solid #e5e7eb; font-weight: normal; }
+        .data-table td { padding: 10px 4px; border-bottom: 1px solid #f3f4f6; vertical-align: middle; }
+        .data-table .num { font-family: 'DIN Alternate', sans-serif; font-weight: bold; font-size: 0.95rem; }
+        
+        /* 状态标签 */
+        .badge { padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; display: inline-block; }
+        .badge-red { background: #fee2e2; color: #991b1b; }
+        .badge-green { background: #dcfce7; color: #166534; }
+        .badge-gray { background: #f3f4f6; color: #4b5563; }
+
+        /* 自查列表样式 */
+        .check-item { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px dashed #e5e7eb; }
+        .check-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+        /* 图表容器 */
+        .chart-box { width: 100%; height: 260px; }
+        .gantt-box { height: 350px; }
+    </style>
+</head>
+<body class="pb-safe">
+
+    <header class="bg-gradient-to-r from-blue-700 to-blue-600 text-white p-5 sticky top-0 z-50 shadow-lg">
+        <div class="flex justify-between items-start">
+            <div>
+                <h1 class="text-lg font-bold tracking-wide">国联人寿</h1>
+                <p class="text-blue-100 text-xs mt-1 opacity-90">2025年前三季度消费投诉分析报告</p>
+            </div>
+            <div class="bg-white/20 px-2 py-1 rounded text-xs backdrop-blur-sm">内部资料</div>
+        </div>
+    </header>
+
+    <main class="p-4 max-w-4xl mx-auto -mt-4 relative z-10">
+
+        <div class="grid grid-cols-2 gap-3 mb-4">
+            <div class="card !m-0 p-4 relative overflow-hidden">
+                <div class="absolute right-0 top-0 p-2 text-gray-100 text-4xl"><i class="fa-solid fa-file-signature"></i></div>
+                <div class="text-gray-500 text-xs mb-1">受理总量</div>
+                <div class="text-2xl font-bold text-gray-800">618 <span class="text-xs font-normal text-gray-400">件</span></div>
+                <div class="mt-2 text-xs font-bold text-red-500 bg-red-50 inline-block px-2 py-0.5 rounded">
+                    <i class="fa-solid fa-caret-up"></i> 48.6%
+                </div>
+            </div>
+            <div class="card !m-0 p-4">
+                <div class="text-gray-500 text-xs mb-1">亿元保费投诉量</div>
+                <div class="text-2xl font-bold text-gray-800">1.05</div>
+                <div class="mt-2 text-xs font-bold text-red-500 bg-red-50 inline-block px-2 py-0.5 rounded">
+                    <i class="fa-solid fa-caret-up"></i> 20.7%
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-l-4 border-red-500">
+            <div class="card-header">
+                <h2 class="section-title text-red-700">监管通报数据详情</h2>
+                <span class="badge badge-red">预警</span>
+            </div>
+            <div class="card-body">
+                <div class="mb-4">
+                    <h4 class="text-xs font-bold text-gray-500 uppercase mb-2">基础总量对比</h4>
+                    <div class="grid grid-cols-2 gap-4 bg-gray-50 p-3 rounded-lg">
+                        <div>
+                            <div class="text-xs text-gray-500">行业通报总量</div>
+                            <div class="font-bold text-gray-800 text-lg">23,656 <span class="text-xs font-normal">件</span></div>
+                            <div class="text-xs text-gray-500">同比 <span class="text-red-500 font-bold">+33.6%</span></div>
+                        </div>
+                        <div class="border-l pl-4 border-gray-200">
+                            <div class="text-xs text-gray-500">公司通报件数</div>
+                            <div class="font-bold text-red-600 text-lg">47 <span class="text-xs font-normal">件</span></div>
+                            <div class="text-xs text-gray-500">同比 <span class="text-red-600 font-bold text-base">+95.8%</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 class="text-xs font-bold text-gray-500 uppercase mb-2">关键指标深度对标</h4>
+                <table class="data-table mb-4">
+                    <thead>
+                        <tr>
+                            <th width="30%">指标名称</th>
+                            <th width="25%">行业中位数</th>
+                            <th width="25%">公司数据</th>
+                            <th width="20%">偏离度</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div>亿元保费</div>
+                                <div class="text-gray-400 text-[0.6rem]">投诉量</div>
+                            </td>
+                            <td>
+                                <div class="num">0.83</div>
+                                <div class="text-[0.6rem] text-gray-400">+68.9%</div>
+                            </td>
+                            <td>
+                                <div class="num text-red-600">1.07</div>
+                                <div class="text-[0.6rem] text-red-400">+87.7%</div>
+                            </td>
+                            <td><span class="badge badge-red">+29%</span></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>万张保单</div>
+                                <div class="text-gray-400 text-[0.6rem]">投诉量</div>
+                            </td>
+                            <td>
+                                <div class="num">0.49</div>
+                                <div class="text-[0.6rem] text-gray-400">+64.3%</div>
+                            </td>
+                            <td>
+                                <div class="num text-red-600">1.58</div>
+                                <div class="text-[0.6rem] text-red-400">+92.7%</div>
+                            </td>
+                            <td><span class="badge badge-red">>200%</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div id="chart-compare" class="chart-box" style="height: 200px;"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header bg-green-50/50">
+                <h2 class="section-title text-green-800">监管通报问题自查整改</h2>
+                <span class="badge badge-green">已达标</span>
+            </div>
+            <div class="card-body">
+                <p class="text-xs text-gray-500 mb-4">针对监管通报的五大行业共性问题，客服部牵头排查，结论如下：</p>
+                
+                <div class="space-y-3">
+                    <div class="flex items-start">
+                        <div class="mt-1 mr-3 text-green-500"><i class="fa-regular fa-circle-check"></i></div>
+                        <div>
+                            <h4 class="text-sm font-bold text-gray-800">理赔环节告知义务</h4>
+                            <p class="text-xs text-gray-500 mt-1 leading-relaxed">
+                                <span class="bg-gray-100 px-1 rounded text-gray-600">整改/现状</span> 
+                                官网/微信/合同全渠道公示流程；报案、立案、结案关键节点<b class="text-gray-700">短信主动通知</b>，流程透明。
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="mt-1 mr-3 text-green-500"><i class="fa-regular fa-circle-check"></i></div>
+                        <div>
+                            <h4 class="text-sm font-bold text-gray-800">保单质押贷款披露</h4>
+                            <p class="text-xs text-gray-500 mt-1 leading-relaxed">
+                                <span class="bg-gray-100 px-1 rounded text-gray-600">整改/现状</span> 
+                                业务人员主动介绍贷款利率、计算方式及注意事项，确保客户知情。
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="mt-1 mr-3 text-green-500"><i class="fa-regular fa-circle-check"></i></div>
+                        <div>
+                            <h4 class="text-sm font-bold text-gray-800">消保审查约束力</h4>
+                            <p class="text-xs text-gray-500 mt-1 leading-relaxed">
+                                <span class="bg-gray-100 px-1 rounded text-gray-600">整改/现状</span> 
+                                审查机制已覆盖业务规则、协议条款及宣传文本，强化流程反馈。
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="mt-1 mr-3 text-green-500"><i class="fa-regular fa-circle-check"></i></div>
+                        <div>
+                            <h4 class="text-sm font-bold text-gray-800">有责投诉问责</h4>
+                            <p class="text-xs text-gray-500 mt-1 leading-relaxed">
+                                <span class="bg-gray-100 px-1 rounded text-gray-600">整改/现状</span> 
+                                [cite_start]已出台《员工违规处罚管理办法》，明确认定标准，强化问责与整改跟踪 [cite: 58]。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="section-title">投诉处理结果分析</h2>
+            </div>
+            <div class="card-body">
+                <div class="flex items-center justify-between bg-orange-50 p-3 rounded-lg mb-4">
+                    <span class="text-xs text-orange-800">通融/协议解约支付金额</span>
+                    <span class="text-lg font-bold text-orange-600 font-mono">¥118.33<span class="text-xs">万</span></span>
+                </div>
+                <div id="chart-resolution" class="chart-box"></div>
+                <div class="text-center text-xs text-gray-400 mt-2">未满足诉求占比近8成，是监管转办主要来源</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="section-title">渠道与机构分布</h2>
+            </div>
+            <div class="card-body">
+                <div id="chart-channel" class="chart-box" style="height: 220px;"></div>
+                <div class="h-px bg-gray-100 my-4"></div>
+                <div id="chart-branch" class="chart-box" style="height: 250px;"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="section-title">下阶段重点工作 (Q4-Q1)</h2>
+                <span class="badge badge-gray">执行中</span>
+            </div>
+            <div class="card-body">
+                <div id="chart-gantt" class="chart-box gantt-box"></div>
+            </div>
+        </div>
+
+        <footer class="text-center pb-8 pt-4">
+            <p class="text-xs text-gray-400">国联人寿客户服务部 · 2025年10月编制</p>
+        </footer>
+
+    </main>
+
+    <script type="text/javascript">
+        // 1. 监管对标图 (更简洁的柱状图)
+        var chartCompare = echarts.init(document.getElementById('chart-compare'));
+        chartCompare.setOption({
+            tooltip: { trigger: 'axis' },
+            legend: { bottom: 0, icon: 'circle', itemWidth: 8, itemHeight: 8 },
+            grid: { left: '3%', right: '4%', bottom: '15%', top: '10%', containLabel: true },
+            xAxis: [{ type: 'category', data: ['亿元保费\n投诉量', '万张保单\n投诉量'], axisLine: {lineStyle:{color:'#e5e7eb'}}, axisLabel: {color:'#6b7280', fontSize: 11} }],
+            yAxis: [{ type: 'value', splitLine: {lineStyle:{type:'dashed', color:'#f3f4f6'}} }],
+            series: [
+                { name: '行业中位数', type: 'bar', data: [0.83, 0.49], barWidth: 16, itemStyle: {color: '#cbd5e1', borderRadius: [4,4,0,0]} },
+                { name: '公司数据', type: 'bar', data: [1.07, 1.58], barWidth: 16, itemStyle: {color: '#ef4444', borderRadius: [4,4,0,0]}, 
+                  label: {show:true, position:'top', color:'#ef4444', fontWeight:'bold', fontSize: 10} }
+            ]
+        });
+
+        // 2. 渠道分布
+        var chartChannel = echarts.init(document.getElementById('chart-channel'));
+        chartChannel.setOption({
+            color: ['#3b82f6', '#10b981', '#f59e0b', '#9ca3af'],
+            legend: { bottom: '0%', left: 'center', icon: 'circle', itemWidth: 8, itemHeight: 8 },
+            series: [{
+                type: 'pie', radius: ['45%', '70%'], center: ['50%', '45%'],
+                label: { show: true, formatter: '{b}\n{d}%', fontSize: 11, color: '#4b5563' },
+                data: [
+                    { value: 295, name: '原创新' }, { value: 190, name: '个险' },
+                    { value: 125, name: '银保' }, { value: 8, name: '团险' }
+                ]
+            }]
+        });
+
+        // 3. 处理结果
+        var chartRes = echarts.init(document.getElementById('chart-resolution'));
+        chartRes.setOption({
+            color: ['#ef4444', '#f59e0b', '#10b981', '#6b7280'],
+            tooltip: { trigger: 'item' },
+            legend: { top: '0%', left: 'center', icon: 'circle', itemWidth: 8, itemHeight: 8 },
+            series: [{
+                type: 'pie', radius: '65%', center: ['50%', '55%'],
+                label: { show: true, formatter: '{b}\n{d}%', fontSize: 11 },
+                data: [
+                    { value: 493, name: '未满足诉求' },
+                    { value: 57, name: '通融/协议解约' },
+                    { value: 46, name: '继续持有' },
+                    { value: 22, name: '正常退保' }
+                ]
+            }]
+        });
+
+        // 4. 机构排名
+        var chartBranch = echarts.init(document.getElementById('chart-branch'));
+        chartBranch.setOption({
+            grid: { top: '10', left: '3%', right: '15%', bottom: '5%', containLabel: true },
+            xAxis: { show: false },
+            yAxis: { type: 'category', data: ['安徽', '湖北', '无锡', '江苏'], axisLine:{show:false}, axisTick:{show:false}, axisLabel:{color:'#4b5563'} },
+            series: [{
+                type: 'bar', data: [51, 77, 225, 265], barWidth: 12,
+                itemStyle: { color: '#3b82f6', borderRadius: [0,4,4,0] },
+                label: { show: true, position: 'right', fontWeight: 'bold', color: '#3b82f6' }
+            }]
+        });
+
+        // 5. 甘特图 (无数字版)
+        var chartGantt = echarts.init(document.getElementById('chart-gantt'));
+        var categories = ['纠纷化解细则', '理赔标准制定', '合规销售培训', '3.0产品监控', '中介法律追偿'];
+        chartGantt.setOption({
+            grid: { left: '3%', right: '4%', bottom: '10%', top: '5%', containLabel: true },
+            xAxis: { 
+                type: 'value', min: 0, max: 6,
+                axisLabel: { formatter: function(val) { return ['10月','11月','12月','1月','2月','3月','Q2'][val]||''; }, color: '#9ca3af', fontSize: 10 },
+                splitLine: { lineStyle: { type: 'dashed', color: '#f3f4f6' } }
+            },
+            yAxis: { type: 'category', data: categories, axisLine:{show:false}, axisTick:{show:false}, axisLabel:{color:'#4b5563', fontSize: 11} },
+            series: [
+                { name: 'Start', type: 'bar', stack: 'Total', itemStyle: {color: 'transparent'}, data: [0, 0, 1, 0, 1] },
+                { 
+                    name: 'Duration', type: 'bar', stack: 'Total', 
+                    itemStyle: {borderRadius: 4, shadowBlur: 2, shadowColor: 'rgba(0,0,0,0.1)'}, 
+                    label: {show: false}, // 去掉内部数字
+                    data: [
+                        {value: 2, itemStyle: {color: '#8b5cf6'}}, 
+                        {value: 2, itemStyle: {color: '#3b82f6'}}, 
+                        {value: 2, itemStyle: {color: '#10b981'}}, 
+                        {value: 6, itemStyle: {color: '#f59e0b'}}, 
+                        {value: 5, itemStyle: {color: '#ef4444'}} 
+                    ]
+                }
+            ]
+        });
+
+        window.addEventListener('resize', function() {
+            [chartCompare, chartChannel, chartRes, chartBranch, chartGantt].forEach(c => c.resize());
+        });
+    </script>
+</body>
+</html>
